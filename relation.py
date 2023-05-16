@@ -28,15 +28,16 @@ class IORelation:
     def __call__(self, state):
         return self.evolve(state)
 
-    def evolve(self, state):
-        final_state = state.State.zero()
-        for c, ketbra in state.ketbras():
-            final_state += c*self.evolve_number_ketbra(ketbra)
+    def evolve(self, initial_state):
+        final_state = state.DensityMatrix.zero()
+        for c, ketbra in initial_state.ketbras():
+            if not c == 0:
+                final_state += c*self.evolve_ketbra(ketbra)
         return final_state
 
-    def evolve_number_ketbra(self, ketbra):
+    def evolve_ketbra(self, ketbra):
         ket, bra = ketbra
-        return state.Ketbra(
+        return state.DensityMatrix.ketbra(
             self.evolve_number_ket(ket),
             self.evolve_number_bra(bra)
             )

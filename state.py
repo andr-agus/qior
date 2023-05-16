@@ -3,7 +3,7 @@
 
 import numpy as np
 
-class State:
+class DensityMatrix:
     """
     """
 
@@ -24,36 +24,18 @@ class State:
 
     @classmethod
     def shape(cls):
-        raise NotImplementedError("to be implemented in derived classes")
-
-class Ket(State):
-
-    @classmethod
-    def shape(cls):
-        D = 1
-        for d in cls.cutoffs:
-            D *= d
-        return (D,)
-
-    def dagger(self):
-        return Bra(self.array.H)
-
-class Bra(Ket):
+        dims = 1
+        for cut in cls.cutoffs:
+            dims *= cut
+        return (dims,)*2
 
     @classmethod
-    def shape(cls):
-        return (1,super(cls).shape())
-
-    def dagger(self):
-        return Ket(self.array.H)
-
-class DensityMatrix(Ket)
-    """
-    """
-
-    @classmethod
-    def shape(cls):
-        super(cls).shape()*2
+    def index2photons(cls, i):
+        ns = []
+        for dim in range(len(cls.cutoffs)):
+            ns.append(i % cls.cutoffs[dim])
+            i = i // cls.cutoffs[dim]
+        return ns
 
     @classmethod
     def zero(cls):
@@ -67,4 +49,8 @@ class DensityMatrix(Ket)
         return self
 
     def ketbras(self):
-        return map(lambda x: (x[1], x[0]), self.array.ndenumerate())
+        return map(lambda x: (x[0], (self.index2photons(x[1][0]), self.index2photons(x[1][1]))), map(lambda x: (x[1], x[0]), np.ndenumerate(self.array)))
+
+    @classmethod
+    def ketbra(self, ketbra_tuple):
+        pass
