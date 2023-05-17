@@ -3,4 +3,4 @@ initial states under quantun input-output relations.
 """
 
 from . import relation
-from . import state
+from . import graphic
