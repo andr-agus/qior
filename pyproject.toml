@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = ["hatchling.build"]
+
+[project]
+name = "quinoa"
+version = "0.0.1"
+authors = [{name="Andres Agusti Casado", email="andres.agusti.casado@gmail.com"}]
+description = "library for computing final states under quantum input-output relations"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+]
+dependencies = [
+    "qutip"
+]
+
+[project.urls]
