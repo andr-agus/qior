@@ -1,9 +1,19 @@
-"""
-This module instantiates the class InputOutputRelation, as well as a 
-function "with_reflectivity" that conveniently creates a relation from a 
-single float representing the reflectivity
-"""
+"""quinoa: QUantum INput Output relAtions
 
+Quinoa is a Python package for the evalutation of the evolution of arbitrary
+initial states under quantum input-output relations. The user interface of
+this module is:
+    - InputOutputRelation: Class representing an input-output relation
+    - InputOutputRelation.__call__: The objects of this class can be used
+      as functions that take as input the input state and return the output
+      state
+    - with_reflectivity: Convenience builder for a particular kind of input-
+      output relation where phases are not important but only the magnitude
+      of the reflectivity.
+
+For more information see the doc strings of those objects as well as the
+examples provided in the repository
+"""
 import math
 
 import numpy as np
