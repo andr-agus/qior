@@ -23,8 +23,8 @@ def main():
     since the photon number is larger than one, the animation contains too
     much information to the user. Thus, we save a static figure to disk for
     the specific value of reflectivity = 0.5 too. That figure shows that the
-    diagonal elements of the output density matrix follow the binomial 
-    distribution, plus the required coherences.
+    probabilities of measuring each of the number eigenstates, with no 
+    information regarding coherences or phases, see example 4 for more info.
     """
     # set the initial parameters
     d1, d2 = dims = (4, 4)
@@ -49,12 +49,11 @@ def main():
     animation.save("quinoa-example2.mp4")
 
     # now it is time for the static figure
-    fig = prepare_input_output_figure()
-    plot_input_tomography(input, fig)
     r = 0.5
     relation = quinoa.with_reflectivity(r, dims)
     output = relation(input)
-    plot_output_tomography(output, fig, r)
+    fig, _ = plt.subplots()
+    plot_fock_distribution(output, fig)
     fig.savefig("quinoa-example2.png")
 
 if __name__ == "__main__":

@@ -99,9 +99,11 @@ class InputOutputRelation:
         self.U = self.time_evolution()
 
     @staticmethod
-    def is_unitary(matrix):
+    def is_unitary(array):
         """ Return True iff matrix is close to a numpy unitary"""
-        return np.allclose(np.eye(matrix.shape[0]), matrix.H * matrix)
+        identity = np.eye(array.shape[0])
+        UdU = np.matmul(array.conj().T, array)
+        return np.allclose(identity, UdU)
 
     def time_evolution(self):
         """
@@ -325,7 +327,10 @@ class InputOutputRelation:
            it does leak outside the cutoff, and exception is thrown
         """
         if self.output_leaks_outside_dims(initial_state):
-            raise ValueError("given the initial state %s and the cutoffs %d, the input-output relation %s can't contain the final state inside the cutoff" % (intial_state, dims, self))
+            dims = initial_state.dims[0]
+            raise ValueError(("given the input output relation %s and its" + \
+            " cutoffs %s, the output state is not contained within those " + \
+            "cutoffs") % (self, dims))
         if self.is_pure(initial_state):
             return self.U * initial_state
         else:
@@ -338,9 +343,9 @@ class InputOutputRelation:
         """
         N0 = self.max_number_of_photons(initial_state, self.acting_on[0])
         N1 = self.max_number_of_photons(initial_state, self.acting_on[1])
-        if N0 + N1 > self.dims[self.acting_on[0]]:
+        if N0 + N1 >= self.dims[self.acting_on[0]]:
             return True
-        if N0 + N1 > self.dims[self.acting_on[1]]:
+        if N0 + N1 >= self.dims[self.acting_on[1]]:
             return True
         return False
 

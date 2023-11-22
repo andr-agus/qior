@@ -17,13 +17,15 @@ def prepare_input_output_figure():
     fig.subplots_adjust(left=.01, right = .99, wspace=.1)
     return fig
 
-def plot_input_tomography(state, fig):
+def plot_input_tomography(state, fig, colorbar = False):
+    if is_pure(state):
+        state = state*state.dag()
     ax_in = fig.axes[0]
     ax_in.clear()
     xlabels = labels_for_state(state)
     hist_in = qp.visualization.matrix_histogram_complex(
         state, xlabels, xlabels, fig = fig, ax = ax_in,
-        colorbar = False,
+        colorbar = colorbar,
         )
     ax_in.set_title("input state")
     ax_in.set_xlabel("photon number")
@@ -31,15 +33,23 @@ def plot_input_tomography(state, fig):
     ax_in.set_zlim((0, 1))
     return fig
 
-def plot_output_tomography(state, fig, reflectivity):
+def is_pure(state):
+    return state.type == "ket"
+
+def plot_output_tomography(state, fig, reflectivity, colorbar = False):
+    if is_pure(state):
+        state = state*state.dag()
     xlabels = labels_for_state(state)
     ax_out = fig.axes[1]
     ax_out.clear()
     hist_out = qp.visualization.matrix_histogram_complex(
         state, xlabels, xlabels, fig = fig, ax = ax_out,
-        colorbar = False,
+        colorbar = colorbar,
         )
-    ax_out.set_title("output when R = %f" % reflectivity)
+    if isinstance(reflectivity, float):
+        ax_out.set_title("output when R = %f" % reflectivity)
+    else:
+        ax_out.set_title("output when R = %s" % reflectivity)
     ax_out.set_xlabel("photon number")
     ax_out.set_ylabel("photon number")
     ax_out.set_zlim((0, 1))
@@ -50,28 +60,10 @@ def labels_for_state(state):
         labels.append("".join(map(str, ints)))
     return labels
     
-def plot_compu_basis_projections(state, fig):
+def plot_fock_distribution(state, fig, ax = None):
+    if ax is None:
+        ax = fig.gca()
     xlabels = labels_for_state(state)
-    ax = fig.axes[0]
-
-def expect_computational_basis(state):
-    """
-    Return an iterable containing the expectation values of the projectors on
-    each of the elements of the computational basis. This is the same as
-    the square of the wavefunction if the state is pure.
-    """
-    return [qp.expect(vec*vec.dag(), state) for vec in computational_basis(state)]
-
-def computational_basis(state):
-    """
-    Return an iterable containing all the states of the computational basis
-    that have the same cutoffs as the argument state.
-    """
-    dims = state.dims[0]
-    vecs = []
-    for ints in itertools.product(*[range(d) for d in dims]):
-        vecs.append([])
-        for d, excitation in zip(dims, ints):
-            vecs[-1].append(qp.basis(d, excitation))
-        vecs[-1] = qp.tensor(*vecs[-1])
-    return vecs
+    qp.plot_fock_distribution(state, fig = fig, ax = ax)
+    ax.set_xticks(range(state.shape[0]), xlabels)
+    ax.set_xlabel("Fock numbers")

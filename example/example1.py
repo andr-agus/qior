@@ -26,7 +26,9 @@ def main():
     transmitted and reflected excitations is produced.
     """
     # set the initial state, the same as in example 0
-    input = initial_state()
+    d1, d2 = dims = (2, 2)
+    psi = qp.tensor(qp.basis(d1, 1), qp.basis(d2, 0))
+    input = psi*psi.dag()
 
     # create a tuple containing different values of the reflectivity
     Rs = linspace(start = 0, end = 1, steps = 20)
@@ -51,17 +53,6 @@ def main():
     animation = FuncAnimation(fig, frame_update, **kw)
     # and save it
     animation.save("quinoa-example1.mp4")
-
-def initial_state():
-    d1, d2 = dims = (2, 2)
-    psi = qp.tensor(qp.basis(d1, 1), qp.basis(d2, 0))
-    return psi*psi.dag()
-
-def frame_update(frame, arg):
-    Rs = arg.get("Rs")
-    input = arg.get("input")
-    fig = arg.get("fig")
-    r = Rs[frame]
 
 if __name__ == "__main__":
     main()
