@@ -1,17 +1,28 @@
+# Copyright 2023 and later, Andres Agusti Casado
+# This file is part of the python package qior.
+# qior is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any
+# later version.
+# qior is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+# You should have received a copy of the GNU General Public License along 
+# with qior. If not, see <https://www.gnu.org/licenses/>. 
 """
 """
 
 import qutip as qp
-
-import quinoa
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-from utils import *
+import qior
+from qior.example.utils import *
 
 def main():
     """
-    Example 2 shows that quinoa deals with multiphoton states consistently.
+    Example 2 shows that qior deals with multiphoton states consistently.
 
     Now, the input state contains three photons on the first mode. Then, the
     tranmission and reflection of those photons result in a final state that
@@ -38,7 +49,7 @@ def main():
     # create a function that, in turn, creates each frame for the animation
     def frame_update(frame):
         r = Rs[frame]
-        relation = quinoa.with_reflectivity(r, dims, acting_on = (0, 1))
+        relation = qior.with_reflectivity(r, dims, acting_on = (0, 1))
         output = relation(input)
         plot_input_tomography(input, fig)
         plot_output_tomography(output, fig, r)
@@ -46,15 +57,15 @@ def main():
     # run the animation and save it to disk
     kw = dict(frames = len(Rs), interval = 2000/len(Rs))
     animation = FuncAnimation(fig, frame_update, **kw)
-    animation.save("quinoa-example2.mp4")
+    animation.save("qior-example2.mp4")
 
     # now it is time for the static figure
     r = 0.5
-    relation = quinoa.with_reflectivity(r, dims)
+    relation = qior.with_reflectivity(r, dims)
     output = relation(input)
     fig, _ = plt.subplots()
     plot_fock_distribution(output, fig)
-    fig.savefig("quinoa-example2.png")
+    fig.savefig("qior-example2.png")
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,15 @@
+# Copyright 2023 and later, Andres Agusti Casado
+# This file is part of the python package qior.
+# qior is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any
+# later version.
+# qior is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+# You should have received a copy of the GNU General Public License along 
+# with qior. If not, see <https://www.gnu.org/licenses/>. 
 """
 """
 
@@ -5,13 +17,13 @@ import qutip as qp
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-import quinoa
+import qior
 
-from utils import *
+from qior.example.utils import *
 
 def main():
     """
-    Example 1 provides the user insight on the meaning of the quinoa 
+    Example 1 provides the user insight on the meaning of the qior 
     parameter labeled as "reflectivity". This function creates an two-figure
     plot.
 
@@ -41,7 +53,7 @@ def main():
     def frame_update(frame_index):
         r = Rs[frame_index]
         dims = tuple(input.dims[0])
-        relation = quinoa.with_reflectivity(r, dims)
+        relation = qior.with_reflectivity(r, dims)
         output = relation(input)
         plot_input_tomography(input, fig)
         plot_output_tomography(output, fig, r)
@@ -52,7 +64,7 @@ def main():
     # Now run the animation
     animation = FuncAnimation(fig, frame_update, **kw)
     # and save it
-    animation.save("quinoa-example1.mp4")
+    animation.save("qior-example1.mp4")
 
 if __name__ == "__main__":
     main()

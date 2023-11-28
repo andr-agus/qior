@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling", "qutip"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qior"
+version = "0.0.1"
+authors = [
+    { name="Andrés Agustí Casado", email="andres.agusti.casado@gmail.com"},
+]
+description = "qior: evaluation of the final states throught quantum input-output relations"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GPLv3 License",
+    "Operating System :: OS Independent",
+]
+dependencies = ["qutip"]
+
+[project.urls]
+Homepage = "https://github.com/andr-agus/qior"
+Issues = "https://github.com/andr-agus/qior/issues"

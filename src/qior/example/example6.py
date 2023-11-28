@@ -1,14 +1,26 @@
+# Copyright 2023 and later, Andres Agusti Casado
+# This file is part of the python package qior.
+# qior is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any
+# later version.
+# qior is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+# You should have received a copy of the GNU General Public License along 
+# with qior. If not, see <https://www.gnu.org/licenses/>. 
 """
 """
 import math
 
 import numpy
 import qutip as qp
-import quinoa
+import qior
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-from utils import *
+from qior.example.utils import *
 
 def main():
     """
@@ -28,7 +40,7 @@ def main():
 
     # the input state is boring so far. We create some coherences between
     # the first and third mode with a half reflective beam splitter.
-    relation1 = quinoa.with_reflectivity(.5, dims, acting_on = (0, 2))
+    relation1 = qior.with_reflectivity(.5, dims, acting_on = (0, 2))
     input = relation1(input) # the new input for future relations
 
     # prepare a figure in which to draw an animation
@@ -37,7 +49,7 @@ def main():
     # create a function that, in turn, creates each frame for the animation
     def frame_update(frame):
         r = Rs[frame]
-        relation = quinoa.with_reflectivity(r, dims, acting_on = (0, 1))
+        relation = qior.with_reflectivity(r, dims, acting_on = (0, 1))
         # this relation retains the coherences between the first and third
         # modes in the input state, but creates new ones with the second
         # mode
@@ -50,7 +62,7 @@ def main():
     # run the animation and save it to disk
     options = dict(frames = len(Rs), interval = 3000/len(Rs))
     animation = FuncAnimation(fig, frame_update, **options)
-    animation.save("quinoa-example6.mp4")
+    animation.save("qior-example6.mp4")
 
 if __name__ == "__main__":
     main()

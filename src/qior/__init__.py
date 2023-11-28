@@ -1,6 +1,18 @@
-"""quinoa: QUantum INput Output relAtions
+# Copyright 2023 and later, Andres Agusti Casado 
+# This file is part of the python package qior.  
+# qior is free software: you can redistribute it and/or modify it under the
+# terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any
+# later version.
+# qior is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+# You should have received a copy of the GNU General Public License along 
+# with qior. If not, see <https://www.gnu.org/licenses/>. 
+"""qior: Quantum Input Output Relations
 
-Quinoa is a Python package for the evalutation of the evolution of arbitrary
+qior is a Python package for the evalutation of the evolution of arbitrary
 initial states under quantum input-output relations. The user interface of
 this module is:
     - InputOutputRelation: Class representing an input-output relation
@@ -393,3 +405,4 @@ class InputOutputRelation:
         Return True iff the state is pure
         """
         return not state.dims[0] == state.dims[1]
+
