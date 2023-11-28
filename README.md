@@ -1,6 +1,8 @@
 # qior: Quantum Input Output Relations
 A python package for the numerical evaluation of the final state resulting of the application of linear input-output relations on arbitrary initial quantum states.
 
+[(this should be a figure)](!eye-candy.mp4)
+
 ## Instalation
 This package is pip-installable
 
