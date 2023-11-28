@@ -7,7 +7,7 @@ A python package for the numerical evaluation of the final state resulting of th
 This package is will be pip-installable soon.
 
 ## Dependencies
-[qutip](qutip.org)
+[qutip](https://qutip.org)
 
 ## Use
 There are two ways to use this module.
