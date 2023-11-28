@@ -4,7 +4,7 @@ A python package for the numerical evaluation of the final state resulting of th
 ![(this should be a gif)](eye-candy.gif)
 
 ## Instalation
-This package is pip-installable
+This package is will be pip-installable soon.
 
 ## Dependencies
 [qutip](qutip.org)
