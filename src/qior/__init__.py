@@ -146,14 +146,17 @@ class InputOutputRelation:
             for n2 in range(d2):
                 bra = qp.tensor(qp.basis(d1, n1), qp.basis(d2, n2)).dag()
                 ket = self.evolve_photon_numbers(n1, n2)
-                U += ket * bra # map to the ket |n1n2> the ket "ket"
+                U += self.to_sparse(ket * bra) # map to the ket |n1n2> the ket "ket"
         return U
+
+    def to_sparse(self, qobj):
+        return qobj.to(qp.data.CSR)
 
     def local_zero_operator(self):
         """
         Return the zero operator that has dimensions matching to the input modes
         """
-        identities = tuple(map(qp.qeye, self.local_dims()))
+        identities = tuple(map(self.to_sparse, map(qp.qeye, self.local_dims())))
         return 0 * qp.tensor(*identities)
 
     def local_dims(self):
@@ -257,7 +260,6 @@ class InputOutputRelation:
         second_permutation[0] = first_permutation[self.acting_on[0]]
         second_permutation[self.acting_on[0]] = first_permutation[0]
         return U.permute(second_permutation)
-
 
     @classmethod
     def with_reflectivity(cls, R, dims, acting_on = (0, 1)):
